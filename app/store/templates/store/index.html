@@ -1,0 +1,50 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}Sneaker Store{% endblock %}
+
+{% block content %}
+
+{{ sneaker. }}
+<section class="slider">
+    <div class="container">
+
+        <img class="slider__img" src="{% static 'store/img/slider1.png' %}" alt="Slider Page 1">
+    </div>
+</section>
+
+<section class="sneakers-group">
+    <div class="container">
+        <div class="sneakers-group__inner">
+            <p class="sneakers-group__title">НОВИНКИ</p>
+            <div class="sneakers-group__items">
+                {% for sneaker in sneakers %}
+                <div class="sneakers-group__item">
+                    <div class="sneakers-group__item-top">
+                        <a href="" class="sneakers-group__item-img-link">
+                            <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
+                                alt="{{ sneaker.name }}">
+                        </a>
+                    </div>
+                    <div class="sneakers-group__item-content">
+
+                        <p class="sneakers-group__item-title">
+                            <a class="sneakers-group__item-title-link" href="#">
+                                {{ sneaker.name }}
+                            </a>
+                        </p>
+                        <p class="sneakers-group__item-price">
+                            <a class="sneakers-group__item-price-link" href="#">
+                                {{ sneaker.price }} BYN
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+                {% endfor %}
+                <div>
+                </div>
+            </div>
+</section>
+{% endblock %}

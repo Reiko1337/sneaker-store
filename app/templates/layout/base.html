@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'store/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'store/img/logo-icon.png' %}">
+    <title>{% block title %}Sneaker Store{% endblock %}</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="header__top-inner">
+                    <a class="header__top-tel" href="#">8029 858 16 85</a>
+                    <nav class="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item-top">
+                                <a class="menu__list-link-top" href="#">Как добраться?</a>
+                            </li>
+                            <li class="menu__list-item-top">
+                                <a class="menu__list-link-top" href="#">Контакты</a>
+                            </li>
+                            <li class="menu__list-item-top">
+                                <a class="menu__list-link-top" href="#">Мой профиль</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <form class="search-form">
+                        <input class="search-form__input" type="text" placeholder="Поиск">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="header__bottom">
+            <div class="container">
+                <div class="header__bottom-inner">
+                    <a class="logo" href="">
+                        <img class="logo__img" src="{% static 'store/img/logo.png' %}" alt="Logo">
+                    </a>
+                    <nav class="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item-bottom">
+                                <a class="menu__list-link-bottom" href="#">Мужские кроссовки</a>
+                            </li>
+                            <li class="menu__list-item-bottom">
+                                <a class="menu__list-link-bottom" href="#">Женские кроссовки</a>
+                            </li>
+                            <li class="menu__list-item-bottom">
+                                <a class="menu__list-link-bottom" href="#">Акция</a>
+                            </li>
+                            <li class="menu__list-item-bottom">
+                                <a class="menu__list-link-bottom" href="#">Избранное</a>
+                            </li>
+                            <li class="menu__list-item-bottom">
+                                <a class="menu__list-link-bottom menu__list-link-cart" href="#">Корзина</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__items">
+                    <div class="footer__item-logo">
+                        <a class="logo" href="">
+                            <img class="footer__logo" src="{% static 'store/img/logo-big.png' %}" alt="">
+                        </a>
+                        <p class="footer__logo-title">SNEAKER STORE</p>
+                        <p class="footer__logo-description">
+                            Магазин кроссовок и спортивной обуви в Минске. В наличии имеются мужские и женские кроссовки
+                            от
+                            производителей.
+                        </p>
+                    </div>
+                    <div class="footer__item-catalog">
+                        <p class="footer__item-title">
+                            КАТАЛОГ
+                        </p>
+                        <ul class="footer__menu-list">
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Мужские кроссовки</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Женские кроссовки</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Скидки</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer__item-about">
+                        <p class="footer__item-title">
+                            О НАС
+                        </p>
+                        <ul class="footer__menu-list">
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Контакты</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Как добраться?</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Информация</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer__item-help">
+                        <p class="footer__item-title">
+                            О НАС
+                        </p>
+                        <ul class="footer__menu-list">
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Обратная связь</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">Карта сайта</a>
+                            </li>
+                            <li class="footer__menu-item">
+                                <a class="footer__menu-link" href="#">API</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+</body>
+
+</html>
