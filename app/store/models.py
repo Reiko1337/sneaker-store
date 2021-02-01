@@ -56,3 +56,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Size(models.Model):
+    """Размер"""
+    sneaker = models.ForeignKey(Sneaker, on_delete=models.CASCADE, verbose_name='Кроссовки')
+    size = models.DecimalField(verbose_name='Размер', max_digits=9, decimal_places=1)
+    quantity = models.PositiveIntegerField(verbose_name='Количество')
+
+    class Meta:
+        verbose_name = 'Размер'
+        verbose_name_plural = 'Размеры'
+        ordering = ['sneaker__name']
+
+    def __str__(self):
+        return '{0} | {1}'.format(self.sneaker.name, self.size)
