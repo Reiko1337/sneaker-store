@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.urls import reverse
+
 
 class Sneaker(models.Model):
     """Кроссовоки"""
@@ -27,6 +29,9 @@ class Sneaker(models.Model):
         verbose_name = 'Кроссовоки'
         verbose_name_plural = 'Кроссовоки'
         ordering = ['-id']
+
+    def get_absolute_url(self):
+        return reverse('store:detail', args=[self.brand.name, self.slug])
 
     def __str__(self):
         return self.name

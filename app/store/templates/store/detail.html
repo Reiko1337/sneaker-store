@@ -1,0 +1,202 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}Sneaker Store{% endblock %}
+
+{% block content %}
+{% for field in form %}
+<br>
+{{ field.size }}
+{% endfor %}
+
+
+<section class="overview">
+    <div class="container">
+        <div class="overview__inner">
+            <ul class="overview__list">
+                <li class="overview__page">
+                    <a class="overview__page-link" href="{% url 'store:index' %}">Главная</a>
+                </li>
+                <li class="overview__page">
+                    <a class="overview__page-link" href="">/</a>
+                </li>
+                <li class="overview__page">
+                    <a class="overview__page-link" href="">Мужские кроссовки</a>
+                </li>
+                <li class="overview__page">
+                    <a class="overview__page-link" href="">/</a>
+                </li>
+                <li class="overview__page">
+                    <a class="overview__page-link" href="">{{ sneaker.name }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="sneaker-cart">
+    <div class="container">
+        <div class="sneaker-cart__inner">
+            <img class="sneaker-cart__img" src="{{ sneaker.image.url }}" alt="{{ sneaker.name }}">
+            <div class="sneaker-cart__content">
+                <form class="sneaker-cart__size-form" method="post">
+                    {% csrf_token %}
+                    <h1 class="sneaker-cart__content-title">{{ sneaker.name }}</h1>
+                    <ul class="sneaker-cart__content-list">
+                        <li class="sneaker-cart__content-item">Бренд: {{ sneaker.brand.name }}</li>
+                        <li class="sneaker-cart__content-item">Категория: {{ sneaker.category }}</li>
+                        <li class="sneaker-cart__content-item">Пол: {{ sneaker.get_sex_display }}</li>
+                    </ul>
+                    <div class="sneaker-cart__size">
+                        <p class="sneaker-cart__size-title">Размер</p>
+                        {% if sizes|length %}
+                        <div class="sneaker-cart__size-items">
+                            {% for size in sizes %}
+                            <label class="sneaker-cart__size-form-label">
+                                <input class="sneaker-cart__size-form-checkbox" type="checkbox"
+                                    value="{{ size.size }}">
+                                <span class="sneaker-cart__size-num">{{ size.size }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <p class="sneaker-cart__content-price">Цена: {{ sneaker.price }} BYN</p>
+                    <div class="sneaker-cart__content-form-btn">
+                        <input class="sneaker-cart__content-btn" type="submit" value="Добавить в корзину">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <table class="sneaker-cart__table-info">
+            <tr>
+                <th colspan="2">Подробно</th>
+            </tr>
+            <tr>
+                <td class="sneaker-cart__table-col">Бренд</td>
+                <td>{{ sneaker.brand }}</td>
+            </tr>
+            <tr>
+                <td>Категория</td>
+                <td>{{ sneaker.category }}</td>
+            </tr>
+            <tr>
+                <td>Пол</td>
+                <td>{{ sneaker.get_sex_display }}</td>
+            </tr>
+            <tr>
+                <td>Материал</td>
+                <td>{{ sneaker.material }}</td>
+            </tr>
+            <tr>
+                <td>Цвет</td>
+                <td>{{ sneaker.colour }}</td>
+            </tr>
+            <tr>
+                <td>Страна производства</td>
+                <td>{{ sneaker.country_manufacture }}</td>
+            </tr>
+            <tr>
+                <td>Артикул</td>
+                <td>{{ sneaker.article_number }}</td>
+            </tr>
+            <tr>
+                <td>Описание</td>
+                <td>{{ sneaker.description }}</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section class="sneakers-group">
+    <div class="container">
+        <div class="sneakers-group__inner">
+            <p class="sneakers-group__title">ВЫ НЕДАВНО ПРОСМАТРИВАЛИ</p>
+            <div class="sneakers-group__items">
+                <div class="sneakers-group__item">
+                    <div class="sneakers-group__item-top">
+                        <a href="" class="sneakers-group__item-img-link">
+                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
+                        </a>
+                    </div>
+                    <div class="sneakers-group__item-content">
+                        <p class="sneakers-group__item-title">
+                            <a class="sneakers-group__item-title-link" href="#">
+                                Nike Air Force 1
+                            </a>
+                        </p>
+                        <p class="sneakers-group__item-price">
+                            <a class="sneakers-group__item-price-link" href="#">
+                                200.00 BYN
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="sneakers-group__item">
+                    <div class="sneakers-group__item-top">
+                        <a href="" class="sneakers-group__item-img-link">
+                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
+                        </a>
+                    </div>
+                    <div class="sneakers-group__item-content">
+                        <p class="sneakers-group__item-title">
+                            <a class="sneakers-group__item-title-link" href="#">
+                                Nike Air Force 1
+                            </a>
+                        </p>
+                        <p class="sneakers-group__item-price">
+                            <a class="sneakers-group__item-price-link" href="#">
+                                200.00 BYN
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="sneakers-group__item">
+                    <div class="sneakers-group__item-top">
+                        <a href="" class="sneakers-group__item-img-link">
+                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
+                        </a>
+                    </div>
+                    <div class="sneakers-group__item-content">
+                        <p class="sneakers-group__item-title">
+                            <a class="sneakers-group__item-title-link" href="#">
+                                Nike Air Force 1
+                            </a>
+                        </p>
+                        <p class="sneakers-group__item-price">
+                            <a class="sneakers-group__item-price-link" href="#">
+                                200.00 BYN
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="sneakers-group__item">
+                    <div class="sneakers-group__item-top">
+                        <a href="" class="sneakers-group__item-img-link">
+                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
+                        </a>
+                    </div>
+                    <div class="sneakers-group__item-content">
+                        <p class="sneakers-group__item-title">
+                            <a class="sneakers-group__item-title-link" href="#">
+                                Nike Air Force 1
+                            </a>
+                        </p>
+                        <p class="sneakers-group__item-price">
+                            <a class="sneakers-group__item-price-link" href="#">
+                                200.00 BYN
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
