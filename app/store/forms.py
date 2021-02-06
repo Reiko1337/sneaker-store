@@ -2,9 +2,6 @@ from django import forms
 from .models import Size
 
 
-
-
-
 class SizeForm(forms.ModelForm):
     size = forms.CharField(widget=forms.CheckboxInput())
 

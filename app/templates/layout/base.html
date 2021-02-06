@@ -68,6 +68,21 @@
             </div>
         </div>
     </header>
+{% if messages %}
+    <section class="message">
+        <div class="container">
+            <div class="message__inner">
+                {% for message in messages %}
+                <div class="message__item {{ message.tags }}">
+                    <p class="message__text">{{ message }}</p>
+                    <button class="message__close" type="button">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}
+
     {% block content %}
     {% endblock %}
 
@@ -139,6 +154,7 @@
         </div>
         </div>
     </footer>
+    <script src="{%  static 'store/js/scripts.js' %}"></script>
 </body>
 
 </html>

@@ -1,11 +1,15 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.db.models import Sum
+from django.core.exceptions import ValidationError
 
 
 class Sneaker(models.Model):
     """Кроссовоки"""
-
     SEX = (
         (None, 'Выберите пол'),
         ('male', 'Мужские'),
@@ -76,3 +80,57 @@ class Size(models.Model):
 
     def __str__(self):
         return '{0} | {1}'.format(self.sneaker.name, self.size)
+
+
+class SneakerInCart(models.Model):
+    sneaker = models.ForeignKey(Sneaker, verbose_name='Кроссовки', on_delete=models.PROTECT)
+    size = models.ForeignKey(Size, verbose_name='Размер', on_delete=models.SET_NULL, null=True)
+    cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
+    final_price = models.DecimalField(verbose_name='Общая цена', max_digits=9, decimal_places=2, default=0,
+                                      validators=[MinValueValidator(0)])
+
+    class Meta:
+        verbose_name = 'Кроссовки в корзине'
+        verbose_name_plural = 'Кроссовки в корзине'
+        ordering = ['-id']
+
+    def save(self, *args, **kwargs):
+        self.final_price = self.quantity * self.sneaker.price
+        return super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.quantity > self.size.quantity:
+            raise ValidationError('Нет в наличии (Доступно {0} пар кроссовок {1})'.format(self.size.quantity, self.sneaker.name))
+
+    def __str__(self):
+        return '{0} in {1}'.format(self.sneaker, self.cart.id)
+
+
+class Cart(models.Model):
+    customer = models.ForeignKey(User, verbose_name='Покапатель', on_delete=models.CASCADE, null=True)
+    total_sneaker = models.PositiveIntegerField(verbose_name='Всего кроссовок', default=0)
+    final_price = models.DecimalField(verbose_name='Общая цена', max_digits=9, decimal_places=2, default=0,
+                                      validators=[MinValueValidator(0)])
+    in_order = models.BooleanField(default=False, verbose_name='В заказе')
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+        ordering = ['-id']
+
+    def __str__(self):
+        return self.customer.username
+
+
+@receiver(post_save, sender=SneakerInCart)
+def recalculation_total_price(instance, **kwargs):
+    cart = instance.cart
+    cart_data = cart.sneakerincart_set.all().aggregate(Sum('final_price'), Sum('quantity'))
+    if cart_data.get('final_price__sum') and cart_data.get('quantity__sum'):
+        cart.final_price = cart_data['final_price__sum']
+        cart.total_sneaker = cart_data['quantity__sum']
+    else:
+        cart.final_price = 0
+        cart.total_sneaker = 0
+    cart.save()

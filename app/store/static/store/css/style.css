@@ -330,3 +330,55 @@ body{
 .sneaker-cart__table-col{
     width: 25%;
 }
+.message__inner{
+    margin-top: 15px;
+}
+.message__item{
+    min-height: 40px;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+    overflow-wrap: break-word;
+    word-break: break-word; 
+}
+.message__item + .message__item{
+    margin-top: 15px;
+}
+.success{
+    background: #93d3a2;
+    box-shadow: 0 0 10px rgb(147, 211, 162);
+}
+.error{
+    background: #ed9aa2;
+    box-shadow: 0 0 10px rgb(237,154,162);
+}
+.info{
+    background: #8bd0db;
+    box-shadow: 0 0 10px rgb(139,208,219);
+}
+.message__close{
+    position: absolute;
+    top: 0;
+    right: 10px;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.6;
+    appearance: button;
+    margin: 0;
+    font-family: inherit;
+    border-radius: 0;
+    outline: 0;
+}
+.message__text{
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 17px;
+}

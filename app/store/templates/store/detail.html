@@ -40,7 +40,7 @@
         <div class="sneaker-cart__inner">
             <img class="sneaker-cart__img" src="{{ sneaker.image.url }}" alt="{{ sneaker.name }}">
             <div class="sneaker-cart__content">
-                <form class="sneaker-cart__size-form" method="post">
+                <form class="sneaker-cart__size-form" id="sneaker-cart__form" action="{% url 'store:add_to_cart' sneaker.slug %}" method="POST">
                     {% csrf_token %}
                     <h1 class="sneaker-cart__content-title">{{ sneaker.name }}</h1>
                     <ul class="sneaker-cart__content-list">
@@ -53,10 +53,10 @@
                         {% if sizes|length %}
                         <div class="sneaker-cart__size-items">
                             {% for size in sizes %}
-                            <label class="sneaker-cart__size-form-label">
-                                <input class="sneaker-cart__size-form-checkbox" type="checkbox"
-                                    value="{{ size.size }}">
-                                <span class="sneaker-cart__size-num">{{ size.size }}</span>
+                            <label class="sneaker-cart__size-form-label" id="sneaker-cart__form-label">
+                                <input class="sneaker-cart__size-form-checkbox" type="checkbox" name="{{ size.size.normalize }}"
+                                    value="{{ size.size.normalize }}">
+                                <span class="sneaker-cart__size-num">{{ size.size.normalize }}</span>
                             </label>
                             {% endfor %}
                         </div>
