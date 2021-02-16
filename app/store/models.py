@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -8,7 +8,18 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 
 
-class Sneaker(models.Model):
+class Sale(models.Model):
+    """Скидка"""
+    sale = models.BooleanField(verbose_name='Скидка', default=False)
+    discount = models.PositiveIntegerField(verbose_name='Процент скидки', default=0, validators=[MaxValueValidator(100)])
+    discount_price = models.DecimalField(verbose_name='Цена со скидкой', max_digits=9, decimal_places=2, default=0,
+                                         validators=[MinValueValidator(0)])
+
+    class Meta:
+        abstract = True
+
+
+class Sneaker(Sale):
     """Кроссовоки"""
     SEX = (
         (None, 'Выберите пол'),
@@ -39,6 +50,11 @@ class Sneaker(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.sale:
+            self.discount_price = self.price - (self.price / 100 * self.discount)
+        return super().save(*args, *kwargs)
 
 
 class Brand(models.Model):
@@ -101,7 +117,8 @@ class SneakerInCart(models.Model):
 
     def clean(self):
         if self.quantity > self.size.quantity:
-            raise ValidationError('Нет в наличии (Доступно {0} пар кроссовок {1})'.format(self.size.quantity, self.sneaker.name))
+            raise ValidationError(
+                'Нет в наличии (Доступно {0} пар кроссовок {1})'.format(self.size.quantity, self.sneaker.name))
 
     def __str__(self):
         return '{0} in {1}'.format(self.sneaker, self.cart.id)

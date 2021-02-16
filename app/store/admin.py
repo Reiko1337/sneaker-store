@@ -24,6 +24,19 @@ class SneakerAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'brand__name', 'category__name')
     list_filter = ('brand__name', 'category__name')
+    readonly_fields = ('discount_price',)
+
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'image', 'category', 'price', 'sex', 'slug')
+        }),
+        ('Описание', {
+            'fields': ('feature', 'description', 'material', 'colour', 'country_manufacture', 'article_number')
+        }),
+        ('Скидка', {
+            'fields': ('sale', 'discount', 'discount_price'),
+        }),
+    )
 
     def get_brand__name(self, rec):
         return rec.brand.name

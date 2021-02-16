@@ -7,6 +7,21 @@ def get_sneaker_by_slug(slug: str) -> object:
     return get_object_or_404(Sneaker, slug=slug)
 
 
+def get_sneaker() -> list:
+    """Все кроссовки в наличии"""
+    return Sneaker.objects.filter(size__quantity__gt=0).distinct()
+
+
+def get_sneaker_new() -> list:
+    """Новые кроссовки (Последние 6 пар кроссок)"""
+    return get_sneaker()[:6]
+
+
+def get_sneaker_sale() -> list:
+    """Кроссовки на скидке"""
+    return get_sneaker().filter(sale=True)
+
+
 def get_size_sneaker(sneaker: object) -> object:
     return sneaker.size_set.order_by('size').filter(quantity__gt=0)
 
@@ -28,6 +43,7 @@ def add_to_cart(request, sizes_stock: list, sneaker: object, cart: object):
                     sneaker_in_cart.quantity += 1
                     sneaker_in_cart.save()
                 else:
-                    messages.error(request, 'Кроссовок {0} | Размер ({1}) больше нет в наличии'.format(sneaker.name, size))
+                    messages.error(request,
+                                   'Кроссовок {0} | Размер ({1}) больше нет в наличии'.format(sneaker.name, size))
                     continue
             messages.success(request, 'Кроссовки {0} | Размер ({1}) добавлены в корзину'.format(sneaker.name, size))

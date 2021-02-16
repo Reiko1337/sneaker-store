@@ -1,3 +1,11 @@
+let close = document.getElementsByClassName('message__close')
+
+for (let i = 0; i < close.length; i++) {
+    close[i].addEventListener('click', function () {
+        this.parentNode.remove()
+    })
+}
+
 document.querySelector('.header__burger').addEventListener('click', function(){
     this.classList.toggle('active')
     document.getElementsByClassName('menu')[0].classList.toggle('active')
@@ -25,7 +33,7 @@ function plusSlide() {
 
 /* Функция уменьшяет индекс на 1, показывает предыдущий слайд*/
 function minusSlide() {
-    showSlides(slideIndex -= 1);  
+    showSlides(slideIndex -= 1);
 }
 
 /* Устанавливает текущий слайд */
