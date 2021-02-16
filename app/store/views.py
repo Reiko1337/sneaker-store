@@ -24,7 +24,7 @@ class DetailSneaker(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sneaker = super().get_object()
-        context['sizes'] = sneaker.size_set.order_by('size').all()
+        context['sizes'] = sneaker.size_set.order_by('size').filter(quantity__gt=0)
         return context
 
 

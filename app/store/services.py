@@ -8,7 +8,7 @@ def get_sneaker_by_slug(slug: str) -> object:
 
 
 def get_size_sneaker(sneaker: object) -> object:
-    return sneaker.size_set.order_by('size').all()
+    return sneaker.size_set.order_by('size').filter(quantity__gt=0)
 
 
 def add_to_cart(request, sizes_stock: list, sneaker: object, cart: object):

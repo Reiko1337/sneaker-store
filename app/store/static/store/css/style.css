@@ -10,62 +10,62 @@ body{
     color: #000;
 }
 .container{
-    max-width: 1200px;
+    max-width: 1230px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 15px;
 }
-.header__top{
+
+
+/* Header */
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+}
+.header::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background: #323030;
+    z-index: 2;
 }
-.header__top-inner{
+.logo{
+    width: 105px;
+    position: relative;
+    z-index: 2;
+}
+.logo__img{
+    max-width: 100%;
+}
+.header__inner{
+    position: relative;
     display: flex;
     align-items: center;
-    height: 45px;
-}
-.header__top-tel{
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    line-height: 20px;
-}
-.menu{
-    margin-left: auto;
+    justify-content: space-between;
+    height: 70px;
 }
 .menu__list{
     display: flex;
+    position: relative;
+    z-index: 2;
 }
-.menu__list-item-top + .menu__list-item-top{
-    margin-left: 33px;
+.menu__list-item{
+    margin-right: 20px;
 }
-.menu__list-link-top{
+.menu__list-item:last-child{
+    margin-right: 0;
+}
+.menu__list-link{
     color: #fff;
-    line-height: 20px;
-    font-size: 16px;
     text-decoration: none;
-}
-.search-form__input{
-    font-family: Montserrat;
-    margin-left: 33px;
-    border: none;
-    outline: none;
-    height: 29px;
-    width: 257px;
-    padding-left: 10px;
     font-size: 16px;
     line-height: 20px;
-    color: #626262;
-}
-.header__bottom-inner{
-    display: flex;
-    margin-top: 9px;
-    align-items: flex-end;
-}
-.menu__list-item-bottom + .menu__list-item-bottom{
-    margin-left: 65px;
-}
-.menu__list-link-bottom{
-    color: #000;
-    text-decoration: none;
 }
 .menu__list-link-cart{
     padding-left: 29px;
@@ -77,84 +77,181 @@ body{
     left: 0;
     width: 24px;
     height: 24px;
-    background-image: url("../img/cart-icon.svg");
+    background-image: url("../img/basket-for-shop.svg");
 }
-.slider__img{
-    margin-top: 32px;
+
+
+.slider__content{
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+    margin-top: 132px;
 }
+/* Картинка мастабируется по отношению к родительскому элементу */
+.slider__item{
+    height: 350px;
+}
+.slider__content .slider__item img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    box-shadow: none !important;
+}
+/* Кнопки вперед и назад */
+.slider__content .slider__prev, .slider__content .slider__next {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+}
+.slider__content .slider__next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+/* При наведении на кнопки добавляем фон кнопок */
+.slider__content .slider__prev:hover,
+.slider__content .slider__next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+/* Кружочки */
+.slider__dots {
+    text-align: center;
+}
+.slider__dots-item{
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin: 0 2px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+.active,
+.slider__dots-item:hover {
+    background-color: #aaa;
+}
+/* Анимация слайдов */
+.slider__content .slider__item {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+@-webkit-keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+
+
+
+
+
+.sneaker-center{
+    margin: 0 auto;
+}
+
 .sneakers-group__inner{
     margin-top: 70px;
 }
 .sneakers-group__title{
     font-size: 24px;
     line-height: 29px;
-    margin-left: 7.5px;
 }
 .sneakers-group__items{
     display: flex;
     flex-wrap: wrap;
+    margin: 0px -10px;
+}
+.snekaer-group__col{
+    flex: 0 0 25%;
+    margin-top: 20px;
+    padding: 0px 10px;
 }
 .sneakers-group__item{
-    margin-top: 20px;
-    margin-left: 7.5px;
-    margin-right: 7.5px;
     background: #323030;
-    width: 285px;
-    min-height: 265px;
+    /* width: 285px;
+    width: 369.859px; */
 }
 .sneakers-group__item-top{
+    padding: 5px;
+    /* width: 100%; */
     height: 190px;
     border-bottom: 1px #fff solid;
-    display: flex;
-    justify-content: center;
-}
-.sneakers-group__item-img-link{
-    display: flex;
-    align-items: center;
 }
 .sneakers-group__item-img{
-    width: 276px;
-    height: 184px;
+    object-fit: cover;
+    /* display: block; */
+    width: 100%;
+    height: 100%;
 }
+
+
 .sneakers-group__item-content{
     padding: 10px 5px;
 }
 .sneakers-group__item-title{
     word-break: break-all;
-}   
+}
 .sneakers-group__item-price{
     word-break: break-all;
 }
 .sneakers-group__item-title-link{
     text-decoration: none;
-    display: inline-block;
     font-size: 18px;
     line-height: 22px;
     color: #FFFFFF;
+    display: inline-block;
 }
 .sneakers-group__item-price-link{
     text-decoration: none;
-    display: inline-block;
     margin-top: 18px;
     font-size: 12px;
     line-height: 15px;
     color: #FFFFFF;
+    display: inline-block;
 }
+
+
 .footer{
-    height: 365px;
+    /* height: 365px; */
     background: #323030;
 }
 .footer__inner{
     margin-top: 100px;
-}
-.footer__items{
     padding-top: 40px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
 }
+
 .footer__item-logo{
     max-width: 321px;
     height: 285px;
+}
+.footer__logo{
+    max-width: 100%;
 }
 .footer__logo-title{
     margin-top: 5px;
@@ -175,10 +272,10 @@ body{
 }
 .footer__menu-list{
     list-style: none;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 .footer__menu-item{
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .footer__menu-link{
     text-decoration: none;
@@ -186,6 +283,7 @@ body{
     line-height: 20px;
     color: #929090;
 }
+
 
 .overview__inner{
     margin-top: 32px;
@@ -339,7 +437,7 @@ body{
     border-radius: 5px;
     position: relative;
     overflow-wrap: break-word;
-    word-break: break-word; 
+    word-break: break-word;
 }
 .message__item + .message__item{
     margin-top: 15px;

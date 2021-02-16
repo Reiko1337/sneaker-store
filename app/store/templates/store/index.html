@@ -10,39 +10,68 @@
 <section class="slider">
     <div class="container">
 
-        <img class="slider__img" src="{% static 'store/img/slider1.png' %}" alt="Slider Page 1">
+        <div class="slider__content">
+            <div class="slider__item">
+                <img src="{% static 'store/img/slider1.png' %}" alt="Первый слайд">
+            </div>
+
+            <div class="slider__item">
+                <img src="{% static 'store/img/slider2.jpg' %}" alt="Второй слайд">
+            </div>
+
+            <div class="slider__item">
+                <img src="{% static 'store/img/slider3.jpg' %}" alt="Третий слайд">
+
+            </div>
+
+            <a class="slider__prev" onclick="minusSlide()">&#10094;</a>
+            <a class="slider__next" onclick="plusSlide()">&#10095;</a>
+        </div>
+        <div class="slider__dots">
+            <span class="slider__dots-item" onclick="currentSlide(1)"></span>
+            <span class="slider__dots-item" onclick="currentSlide(2)"></span>
+            <span class="slider__dots-item" onclick="currentSlide(3)"></span>
+        </div>
+
     </div>
+
 </section>
+
 
 <section class="sneakers-group">
     <div class="container">
+
         <div class="sneakers-group__inner">
             <p class="sneakers-group__title">НОВИНКИ</p>
+
             <div class="sneakers-group__items">
                 {% for sneaker in sneakers %}
-                <div class="sneakers-group__item">
-                    <div class="sneakers-group__item-top">
-                        <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
-                            <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
-                                alt="{{ sneaker.name }}">
-                        </a>
-                    </div>
-                    <div class="sneakers-group__item-content">
-                        <p class="sneakers-group__item-title">
-                            <a class="sneakers-group__item-title-link" href="{{ sneaker.get_absolute_url }}">
-                                {{ sneaker.name }}
+                <div class="snekaer-group__col">
+                    <div class="sneakers-group__item">
+                        <div class="sneakers-group__item-top">
+                            <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
+                                <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
+                                    alt="{{ sneaker.name }}">
                             </a>
-                        </p>
-                        <p class="sneakers-group__item-price">
-                            <a class="sneakers-group__item-price-link" href="{{ sneaker.get_absolute_url }}">
-                                {{ sneaker.price }} BYN
-                            </a>
-                        </p>
+                        </div>
+                        <div class="sneakers-group__item-content">
+                            <p class="sneakers-group__item-title">
+                                <a class="sneakers-group__item-title-link" href="{{ sneaker.get_absolute_url }}">
+                                    {{ sneaker.name }}
+                                </a>
+                            </p>
+                            <p class="sneakers-group__item-price">
+                                <a class="sneakers-group__item-price-link" href="{{ sneaker.get_absolute_url }}">
+                                    {{ sneaker.price }} BYN
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
-                <div>
-                </div>
             </div>
+        </div>
+    </div>
 </section>
+
 {% endblock %}
