@@ -1,0 +1,30 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+    const sale = document.getElementById('id_sale')
+    const discount = document.getElementById('id_discount')
+
+    if (sale.checked === true){
+        discount.readOnly = false
+        discount.style.background = '#fff'
+    }
+    else{
+        discount.readOnly = true
+        discount.style.background = '#d3d3d3'
+    }
+
+    sale.addEventListener('click', function() {
+        if(this.checked === true){
+            discount.readOnly = false
+            discount.style.background = '#fff'
+        }
+        else{
+            discount.readOnly = true
+            discount.style.background = '#d3d3d3'
+        }
+    })
+</script>
+{% endblock %}

@@ -229,11 +229,51 @@ body{
 .sneakers-group__item-price-link{
     text-decoration: none;
     margin-top: 18px;
-    font-size: 12px;
-    line-height: 15px;
     color: #FFFFFF;
     display: inline-block;
 }
+.sneakers-group__item-price{
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.sneakers-group__item_sale{
+    position: relative;
+}
+.sneakers-group__item_sale::after{
+    content: "";
+    background-image: url('../img/sale-tag.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    top: 8px;
+    left: 8px;
+}
+.discount{
+    content: "";
+    position: absolute;
+    right: 8px;
+    top: 12px;
+    color: #fff;
+    padding: 3px;
+    border-radius: 5px;
+    background: #ff0000;
+    box-shadow: 0 0 10px rgb(255, 0, 0);
+}
+.sneakers-group__item-price-link_sale .sneakers-group__item-price{
+    text-decoration: line-through;
+    font-size: 14px;
+    line-height: 17px;
+}
+.sneakers-group__item-price-link_sale .sneakers-group__item-discount-price{
+    color: #ff0000;
+    margin-left: 10px;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+
 
 
 .footer{

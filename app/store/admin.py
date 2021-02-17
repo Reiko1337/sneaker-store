@@ -19,6 +19,7 @@ class SneakerInCartPanel(admin.TabularInline):
 @admin.register(Sneaker)
 class SneakerAdmin(admin.ModelAdmin):
     """Админ панель Кроссовок"""
+    change_form_template = 'layout/admin.html'
     list_display = ('id', 'name', 'get_brand__name', 'get_category__name', 'price', 'get_img')
     inlines = [SizePanel]
     prepopulated_fields = {'slug': ('name',)}

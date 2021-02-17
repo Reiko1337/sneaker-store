@@ -47,7 +47,8 @@
             <div class="sneakers-group__items">
                 {% for sneaker in sneakers %}
                 <div class="snekaer-group__col">
-                    <div class="sneakers-group__item">
+                    <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
+                        {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
                         <div class="sneakers-group__item-top">
                             <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
                                 <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
@@ -61,8 +62,9 @@
                                 </a>
                             </p>
                             <p class="sneakers-group__item-price">
-                                <a class="sneakers-group__item-price-link" href="{{ sneaker.get_absolute_url }}">
-                                    {{ sneaker.price }} BYN
+                                <a class="sneakers-group__item-price-link  {% if sneaker.sale %}sneakers-group__item-price-link_sale{% endif %}" href="{{ sneaker.get_absolute_url }}">
+                                    <span class="sneakers-group__item-price">{{ sneaker.price }} BYN</span>
+                                    {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
                                 </a>
                             </p>
                         </div>
@@ -83,7 +85,8 @@
             <div class="sneakers-group__items">
                 {% for sneaker in sneakers_sale %}
                 <div class="snekaer-group__col">
-                    <div class="sneakers-group__item">
+                    <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
+                        {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
                         <div class="sneakers-group__item-top">
                             <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
                                 <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
@@ -97,8 +100,9 @@
                                 </a>
                             </p>
                             <p class="sneakers-group__item-price">
-                                <a class="sneakers-group__item-price-link" href="{{ sneaker.get_absolute_url }}">
-                                    {{ sneaker.price }} BYN {% if sneaker.sale %}{{ sneaker.discount_price }} BYN{% endif %}
+                                <a class="sneakers-group__item-price-link  {% if sneaker.sale %}sneakers-group__item-price-link_sale{% endif %}" href="{{ sneaker.get_absolute_url }}">
+                                    <span class="sneakers-group__item-price">{{ sneaker.price }} BYN</span>
+                                    {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
                                 </a>
                             </p>
                         </div>
