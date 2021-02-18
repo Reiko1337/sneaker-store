@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404
 from .models import Sneaker, SneakerInCart
 from django.contrib import messages
+import ast
 
 
 def get_sneaker_by_slug(slug: str) -> object:
+    """Крососки по URL"""
     return get_object_or_404(Sneaker, slug=slug)
 
 
@@ -23,7 +25,34 @@ def get_sneaker_sale() -> list:
 
 
 def get_size_sneaker(sneaker: object) -> object:
+    """Размеры кроссовок, которые в наличии"""
     return sneaker.size_set.order_by('size').filter(quantity__gt=0)
+
+
+def add_sneaker_view_in_cookie(request: object, response: object, sneaker: object):
+    """Добавление кроссовок в COOKIE (Которые были просмотрены пользователем)"""
+    if 'sneakers' in request.COOKIES:
+        sneakers = ast.literal_eval(request.COOKIES.get('sneakers'))
+        if sneaker.pk not in sneakers:
+            sneakers.append(sneaker.pk)
+            response.set_cookie('sneakers', sneakers, max_age=1209600)
+    else:
+        response.set_cookie('sneakers', [sneaker.pk], max_age=1209600)
+    return response
+
+
+def get_sneakers_view_from_cookie(request: object):
+    """Кроссовки, которые были просмотрены пользователем"""
+    sneakers = []
+    if request.COOKIES.get('sneakers'):
+        sneakers_id = ast.literal_eval(request.COOKIES.get('sneakers'))
+        for sneaker_id in sneakers_id:
+            sneaker = Sneaker.objects.filter(pk=sneaker_id).first()
+            if sneaker:
+                sneakers.append(sneaker)
+    else:
+        sneakers
+    return sneakers[::-1]
 
 
 def add_to_cart(request, sizes_stock: list, sneaker: object, cart: object):

@@ -76,6 +76,7 @@
     </div>
 </section>
 
+
 <section class="sneakers-group">
     <div class="container">
 
@@ -113,4 +114,44 @@
         </div>
     </div>
 </section>
+
+{% if sneakers_view %}
+<section class="sneakers-group">
+    <div class="container">
+
+        <div class="sneakers-group__inner">
+            <p class="sneakers-group__title">ВЫ НЕДАВНО ПРОСМАТРИВАЛИ</p>
+
+            <div class="sneakers-group__items">
+                {% for sneaker in sneakers_view %}
+                <div class="snekaer-group__col">
+                    <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
+                        {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
+                        <div class="sneakers-group__item-top">
+                            <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
+                                <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
+                                    alt="{{ sneaker.name }}">
+                            </a>
+                        </div>
+                        <div class="sneakers-group__item-content">
+                            <p class="sneakers-group__item-title">
+                                <a class="sneakers-group__item-title-link" href="{{ sneaker.get_absolute_url }}">
+                                    {{ sneaker.name }}
+                                </a>
+                            </p>
+                            <p class="sneakers-group__item-price">
+                                <a class="sneakers-group__item-price-link  {% if sneaker.sale %}sneakers-group__item-price-link_sale{% endif %}" href="{{ sneaker.get_absolute_url }}">
+                                    <span class="sneakers-group__item-price">{{ sneaker.price }} BYN</span>
+                                    {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
