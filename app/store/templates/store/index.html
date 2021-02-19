@@ -122,7 +122,7 @@
         <div class="sneakers-group__inner">
             <p class="sneakers-group__title">ВЫ НЕДАВНО ПРОСМАТРИВАЛИ</p>
 
-            <div class="sneakers-group__items">
+            <div class="sneakers-group__items view">
                 {% for sneaker in sneakers_view %}
                 <div class="snekaer-group__col">
                     <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
@@ -150,6 +150,10 @@
                 </div>
                 {% endfor %}
             </div>
+              <div class="sneakers-group__btns">
+                    <button id="prev-view" class="sneakers-group__btn">&#10094; Назад</button>
+                    <button id="next-view" class="sneakers-group__btn">Вперед &#10095;</button>
+                </div>
         </div>
     </div>
 </section>

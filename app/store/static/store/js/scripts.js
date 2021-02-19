@@ -61,3 +61,79 @@ function showSlides(n) {
     slides[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " active";
 }
+
+
+document.addEventListener("DOMContentLoaded", function(event)
+{
+    window.onresize = function() {
+        showSneakersView()
+    };
+});
+
+
+
+let start = 0
+
+showSneakersView();
+
+
+document.getElementById('prev-view').addEventListener('click', function(){
+
+    let item_width = document.querySelector('.snekaer-group__col').offsetWidth
+    let container_width = document.querySelector('.container').offsetWidth
+
+    let count = Math.floor(container_width/item_width)
+
+    start-=count
+    showSneakersView();
+})
+
+document.getElementById('next-view').addEventListener('click', function(){
+    let item_width = document.querySelector('.snekaer-group__col').offsetWidth
+    let container_width = document.querySelector('.container').offsetWidth
+
+    let count = Math.floor(container_width/item_width)
+
+    start+=count
+    showSneakersView();
+})
+
+function showSneakersView() {
+    let sneakers  = document.querySelector('.view').children
+
+    let item_width = document.querySelector('.snekaer-group__col').offsetWidth
+    let container_width = document.querySelector('.container').offsetWidth
+
+    let last = Math.floor(container_width/item_width) + start
+
+    if (start <= 0){
+        document.getElementById('prev-view').setAttribute('disabled', true);
+    }
+    else{
+        document.getElementById('prev-view').removeAttribute('disabled', false);
+    }
+
+    if (last >= sneakers.length){
+        document.getElementById('next-view').setAttribute('disabled', true);
+    }
+    else{
+        document.getElementById('next-view').removeAttribute('disabled', false);
+    }
+
+    if(last > sneakers.length){
+        last = sneakers.length
+        start = last - Math.floor(container_width/item_width)
+    }
+    if (start < 0) {
+        start = 0
+        last = Math.floor(container_width/item_width)
+    }
+    for(let i = 0; i < sneakers.length; i++){
+        if(i>= start && i <= last){
+            sneakers[i].style.display = 'block'
+        }
+        else{
+            sneakers[i].style.display = 'none'
+        }
+    }
+}

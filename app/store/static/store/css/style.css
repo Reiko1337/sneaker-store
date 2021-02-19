@@ -167,14 +167,12 @@ body{
 }
 
 
-
-
-
 .sneaker-center{
     margin: 0 auto;
 }
 
 .sneakers-group__inner{
+    overflow: hidden;
     margin-top: 70px;
 }
 .sneakers-group__title{
@@ -186,6 +184,41 @@ body{
     flex-wrap: wrap;
     margin: 0px -10px;
 }
+
+.sneakers-group__btns{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.sneakers-group__btn + .sneakers-group__btn{
+    margin-left: 15px;
+}
+.sneakers-group__btn{
+    font-family: Montserrat;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px;
+    width: 82px;
+    height: 30px;
+    color: #fff;
+    background: #323030;
+    border-radius: 3px;
+    outline: none;
+    border: 2px solid #323030;
+}
+.sneakers-group__btn:disabled{
+    color: #000;
+    background-color: #fff;
+}
+.sneakers-group__btn:hover{
+    background: #696464;
+}
+
+.sneakers-group__items.view{
+    flex-wrap: nowrap;
+}
+
 .snekaer-group__col{
     flex: 0 0 25%;
     margin-top: 20px;
