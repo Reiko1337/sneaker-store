@@ -194,6 +194,7 @@ body{
     margin-left: 15px;
 }
 .sneakers-group__btn{
+    transition: all 0.3s ease 0s;
     font-family: Montserrat;
     font-weight: 700;
     font-style: normal;
@@ -224,11 +225,12 @@ body{
     margin-top: 20px;
     padding: 0px 10px;
 }
+
 .sneakers-group__item{
     background: #323030;
-    /* width: 285px;
-    width: 369.859px; */
+
 }
+
 .sneakers-group__item-top{
     padding: 5px;
     /* width: 100%; */
@@ -244,6 +246,7 @@ body{
 
 
 .sneakers-group__item-content{
+    position: relative;
     padding: 10px 5px;
 }
 .sneakers-group__item-title{
@@ -306,6 +309,51 @@ body{
     line-height: 20px;
 }
 
+.sneakers-group__item-label-favorite{
+    position: absolute;
+        bottom: 7px;
+        right: 25px;
+}
+
+
+.sneaker-group__item-favorite {
+    position: relative;
+    width: 18px;
+    height: 32px;
+}
+
+.sneaker-group__item-favorite::before, .sneaker-group__item-favorite::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 18px;
+    height: 32px;
+    border-radius: 50px 50px 0 0;
+    background: #fff;
+}
+
+.sneaker-group__item-favorite::before {
+    left: 18px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.sneaker-group__item-favorite::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+
+}
+.sneaker-group__item-favorite-checkbox{
+    display: none;
+}
+
+.sneaker-group__item-favorite-checkbox:checked + .sneaker-group__item-favorite::before{
+    background: red
+}
+.sneaker-group__item-favorite-checkbox:checked + .sneaker-group__item-favorite::after{
+    background: red
+}
 
 
 

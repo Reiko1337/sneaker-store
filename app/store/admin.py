@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sneaker, Brand, Category, Size, SneakerInCart, Cart
+from .models import Sneaker, Brand, Category, Size, SneakerInCart, Cart, Profile
 from django.utils.html import mark_safe
 
 
@@ -116,6 +116,12 @@ class CartAdmin(admin.ModelAdmin):
         return rec.customer.username
 
     get_customer.short_description = 'Имя пользователя'
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    search_fields = ('user__username',)
+    filter_horizontal = ('favorites_sneakers', )
 
 
 admin.site.site_title = 'Магазин Кроссовк'

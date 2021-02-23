@@ -46,6 +46,7 @@
 
             <div class="sneakers-group__items">
                 {% for sneaker in sneakers %}
+
                 <div class="snekaer-group__col">
                     <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
                         {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
@@ -67,6 +68,13 @@
                                     {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
                                 </a>
                             </p>
+                            <label class="sneakers-group__item-label-favorite">
+                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                   <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
+
+                                   <div class="sneaker-group__item-favorite"></div>
+                                </form>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -88,6 +96,7 @@
                 <div class="snekaer-group__col">
                     <div class="sneakers-group__item {% if sneaker.sale %}sneakers-group__item_sale{% endif %}">
                         {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
+
                         <div class="sneakers-group__item-top">
                             <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
                                 <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
@@ -106,6 +115,12 @@
                                     {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
                                 </a>
                             </p>
+                            <label class="sneakers-group__item-label-favorite">
+                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                   <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
+                                   <div class="sneaker-group__item-favorite"></div>
+                                </form>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -145,6 +160,12 @@
                                     {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
                                 </a>
                             </p>
+                            <label class="sneakers-group__item-label-favorite">
+                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                   <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
+                                   <div class="sneaker-group__item-favorite"></div>
+                                </form>
+                            </label>
                         </div>
                     </div>
                 </div>

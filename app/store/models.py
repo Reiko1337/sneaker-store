@@ -11,7 +11,8 @@ from django.core.exceptions import ValidationError
 class Sale(models.Model):
     """Скидка"""
     sale = models.BooleanField(verbose_name='Скидка', default=False)
-    discount = models.PositiveIntegerField(verbose_name='Процент скидки', default=0, validators=[MaxValueValidator(100)])
+    discount = models.PositiveIntegerField(verbose_name='Процент скидки', default=0,
+                                           validators=[MaxValueValidator(100)])
     discount_price = models.DecimalField(verbose_name='Цена со скидкой', max_digits=9, decimal_places=2, default=0,
                                          validators=[MinValueValidator(0)])
 
@@ -151,3 +152,15 @@ def recalculation_total_price(instance, **kwargs):
         cart.final_price = 0
         cart.total_sneaker = 0
     cart.save()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    favorites_sneakers = models.ManyToManyField(Sneaker, verbose_name='Избранные кроссоки', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+    def __str__(self):
+        return self.user.username
