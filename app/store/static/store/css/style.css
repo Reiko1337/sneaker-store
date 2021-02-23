@@ -344,6 +344,20 @@ body{
     transform-origin: 100% 100%;
 
 }
+.favorite-form{
+    position: relative;
+}
+.favorite-form:hover::after{
+    content: "Избранное";
+    position: absolute;
+    font-size: 10px;
+    line-height: 12px;
+    background: rgba(252, 252, 252, 0.9);
+    top: -23px;
+    left: -28px;
+    padding: 3px;
+
+}
 .sneaker-group__item-favorite-checkbox{
     display: none;
 }

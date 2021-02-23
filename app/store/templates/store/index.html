@@ -69,7 +69,7 @@
                                 </a>
                             </p>
                             <label class="sneakers-group__item-label-favorite">
-                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                <form class="favorite-form" method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
                                    <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
 
                                    <div class="sneaker-group__item-favorite"></div>
@@ -116,7 +116,7 @@
                                 </a>
                             </p>
                             <label class="sneakers-group__item-label-favorite">
-                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                <form class="favorite-form" method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
                                    <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
                                    <div class="sneaker-group__item-favorite"></div>
                                 </form>
@@ -161,7 +161,7 @@
                                 </a>
                             </p>
                             <label class="sneakers-group__item-label-favorite">
-                                <form method="get" action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                <form class="favorite-form" method="get" action="{% url 'store:edit_favorites' sneaker.slug %}" >
                                    <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
                                    <div class="sneaker-group__item-favorite"></div>
                                 </form>
