@@ -41,6 +41,8 @@ class DetailSneaker(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sneaker = super().get_object()
+        context['sneakers_view'] = get_sneakers_view_from_cookie(self.request)
+        context['favorites'] = get_favorites_sneakers(self.request)
         context['sizes'] = get_size_sneaker(sneaker)
         return context
 

@@ -32,17 +32,28 @@
 
 <section class="sneaker-cart">
     <div class="container">
-        <div class="sneaker-cart__inner">
-            <img class="sneaker-cart__img" src="{{ sneaker.image.url }}" alt="{{ sneaker.name }}">
-            <div class="sneaker-cart__content">
-                <form class="sneaker-cart__size-form" id="sneaker-cart__form" action="{% url 'store:add_to_cart' sneaker.slug %}" method="POST">
-                    {% csrf_token %}
+        <div class="sneaker-cart__inner {% if sneaker.sale %}sale{% endif %}">
+             <div class="sneaker-cart__img">
+            <img class="sneaker-cart__img-image" src="{{ sneaker.image.url }}" alt="{{ sneaker.name }}">
+             {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
+             </div>
+                 <div class="sneaker-cart__content">
+
                     <h1 class="sneaker-cart__content-title">{{ sneaker.name }}</h1>
                     <ul class="sneaker-cart__content-list">
                         <li class="sneaker-cart__content-item">Бренд: {{ sneaker.brand.name }}</li>
                         <li class="sneaker-cart__content-item">Категория: {{ sneaker.category }}</li>
                         <li class="sneaker-cart__content-item">Пол: {{ sneaker.get_sex_display }}</li>
+                         <label class="sneakers-group__item-label-favorite detail">
+                            <form class="favorite-form" method="get"
+                                action="{% url 'store:edit_favorites' sneaker.slug %}">
+                                <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
+                                <div class="sneaker-group__item-favorite detail"></div>
+                            </form>
+                        </label>
                     </ul>
+                <form class="sneaker-cart__size-form" id="sneaker-cart__form" action="{% url 'store:add_to_cart' sneaker.slug %}" method="POST">
+                    {% csrf_token %}
                     <div class="sneaker-cart__size">
                         <p class="sneaker-cart__size-title">Размер</p>
                         {% if sizes|length %}
@@ -57,7 +68,10 @@
                         </div>
                         {% endif %}
                     </div>
-                    <p class="sneaker-cart__content-price">Цена: {{ sneaker.price }} BYN</p>
+                    <div class="sneaker-cart__content-price {% if sneaker.sale %}sneaker-cart__content-price_sale{% endif %}">
+                            <span class="sneaker-cart__price">{{ sneaker.price }} BYN</span>
+                        {% if sneaker.sale %}<span class="sneakers-group__discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
+                        </div>
                     <div class="sneaker-cart__content-form-btn">
                         <input class="sneaker-cart__content-btn" type="submit" value="Добавить в корзину">
                     </div>
@@ -105,93 +119,53 @@
     </div>
 </section>
 
+{% if sneakers_view %}
 <section class="sneakers-group">
     <div class="container">
+
         <div class="sneakers-group__inner">
             <p class="sneakers-group__title">ВЫ НЕДАВНО ПРОСМАТРИВАЛИ</p>
-            <div class="sneakers-group__items">
-                <div class="sneakers-group__item">
-                    <div class="sneakers-group__item-top">
-                        <a href="" class="sneakers-group__item-img-link">
-                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
-                        </a>
-                    </div>
-                    <div class="sneakers-group__item-content">
-                        <p class="sneakers-group__item-title">
-                            <a class="sneakers-group__item-title-link" href="#">
-                                Nike Air Force 1
-                            </a>
-                        </p>
-                        <p class="sneakers-group__item-price">
-                            <a class="sneakers-group__item-price-link" href="#">
-                                200.00 BYN
-                            </a>
-                        </p>
-                    </div>
-                </div>
 
-
-                <div class="sneakers-group__item">
-                    <div class="sneakers-group__item-top">
-                        <a href="" class="sneakers-group__item-img-link">
-                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
-                        </a>
-                    </div>
-                    <div class="sneakers-group__item-content">
-                        <p class="sneakers-group__item-title">
-                            <a class="sneakers-group__item-title-link" href="#">
-                                Nike Air Force 1
+            <div class="sneakers-group__items view">
+                {% for sneaker in sneakers_view %}
+                <div class="snekaer-group__col">
+                    <div class="sneakers-group__item {% if sneaker.sale %}sale{% endif %}">
+                        {% if sneaker.sale %}<span class="discount">-{{ sneaker.discount }}%</span>{% endif %}
+                        <div class="sneakers-group__item-top">
+                            <a class="sneakers-group__item-img-link" href="{{ sneaker.get_absolute_url }}">
+                                <img class="sneakers-group__item-img" src="{{ sneaker.image.url }}"
+                                    alt="{{ sneaker.name }}">
                             </a>
-                        </p>
-                        <p class="sneakers-group__item-price">
-                            <a class="sneakers-group__item-price-link" href="#">
-                                200.00 BYN
-                            </a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="sneakers-group__item">
-                    <div class="sneakers-group__item-top">
-                        <a href="" class="sneakers-group__item-img-link">
-                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
-                        </a>
-                    </div>
-                    <div class="sneakers-group__item-content">
-                        <p class="sneakers-group__item-title">
-                            <a class="sneakers-group__item-title-link" href="#">
-                                Nike Air Force 1
-                            </a>
-                        </p>
-                        <p class="sneakers-group__item-price">
-                            <a class="sneakers-group__item-price-link" href="#">
-                                200.00 BYN
-                            </a>
-                        </p>
+                        </div>
+                        <div class="sneakers-group__item-content">
+                            <p class="sneakers-group__item-title">
+                                <a class="sneakers-group__item-title-link" href="{{ sneaker.get_absolute_url }}">
+                                    {{ sneaker.name }}
+                                </a>
+                            </p>
+                            <p class="sneakers-group__item-price">
+                                <a class="sneakers-group__item-price-link  {% if sneaker.sale %}sneakers-group__item-price-link_sale{% endif %}" href="{{ sneaker.get_absolute_url }}">
+                                    <span class="sneakers-group__item-price">{{ sneaker.price }} BYN</span>
+                                    {% if sneaker.sale %}<span class="sneakers-group__item-discount-price">{{ sneaker.discount_price }} BYN</span> {% endif %}
+                                </a>
+                            </p>
+                            <label class="sneakers-group__item-label-favorite">
+                                <form class="favorite-form" method="get" action="{% url 'store:edit_favorites' sneaker.slug %}" >
+                                   <input class="sneaker-group__item-favorite-checkbox" {% if sneaker in favorites %} checked {% endif %} type="checkbox">
+                                   <div class="sneaker-group__item-favorite"></div>
+                                </form>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="sneakers-group__item">
-                    <div class="sneakers-group__item-top">
-                        <a href="" class="sneakers-group__item-img-link">
-                            <img class="sneakers-group__item-img" src="img/sneaker-cart.png" alt="">
-                        </a>
-                    </div>
-                    <div class="sneakers-group__item-content">
-                        <p class="sneakers-group__item-title">
-                            <a class="sneakers-group__item-title-link" href="#">
-                                Nike Air Force 1
-                            </a>
-                        </p>
-                        <p class="sneakers-group__item-price">
-                            <a class="sneakers-group__item-price-link" href="#">
-                                200.00 BYN
-                            </a>
-                        </p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
+              <div class="sneakers-group__btns">
+                    <button id="prev-view" class="sneakers-group__btn">&#10094; Назад</button>
+                    <button id="next-view" class="sneakers-group__btn">Вперед &#10095;</button>
+                </div>
         </div>
     </div>
 </section>
-
+{% endif %}
 {% endblock %}

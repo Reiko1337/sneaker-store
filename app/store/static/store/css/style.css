@@ -2,13 +2,13 @@
     box-sizing: border-box;
 }
 body{
-    padding-top: 70px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
     color: #000;
+    padding-top: 70px;
 }
 .container{
     max-width: 1230px;
@@ -86,8 +86,7 @@ body{
     max-width: 100%;
     position: relative;
     z-index: 1;
-    /* margin-top: 132px; */
-    margin-top: 32px;
+    margin-top: 62px;
 }
 /* Картинка мастабируется по отношению к родительскому элементу */
 .slider__item{
@@ -101,7 +100,7 @@ body{
     box-shadow: none !important;
 }
 /* Кнопки вперед и назад */
-.slider__content .slider__prev, .slider__content .slider__next {
+.slider__prev, .slider__next {
     cursor: pointer;
     position: absolute;
     top: 0;
@@ -115,13 +114,13 @@ body{
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
 }
-.slider__content .slider__next {
+.slider__next {
     right: 0;
     border-radius: 3px 0 0 3px;
 }
 /* При наведении на кнопки добавляем фон кнопок */
-.slider__content .slider__prev:hover,
-.slider__content .slider__next:hover {
+.slider__prev:hover,
+.slider__next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 /* Кружочки */
@@ -167,6 +166,7 @@ body{
 }
 
 
+
 .sneaker-center{
     margin: 0 auto;
 }
@@ -194,7 +194,6 @@ body{
     margin-left: 15px;
 }
 .sneakers-group__btn{
-    transition: all 0.3s ease 0s;
     font-family: Montserrat;
     font-weight: 700;
     font-style: normal;
@@ -219,27 +218,22 @@ body{
 .sneakers-group__items.view{
     flex-wrap: nowrap;
 }
-
 .snekaer-group__col{
     flex: 0 0 25%;
     margin-top: 20px;
     padding: 0px 10px;
 }
-
 .sneakers-group__item{
+    /* position: relative; */
     background: #323030;
-
 }
-
 .sneakers-group__item-top{
     padding: 5px;
-    /* width: 100%; */
     height: 190px;
     border-bottom: 1px #fff solid;
 }
 .sneakers-group__item-img{
     object-fit: cover;
-    /* display: block; */
     width: 100%;
     height: 100%;
 }
@@ -273,10 +267,10 @@ body{
     line-height: 20px;
 }
 
-.sneakers-group__item_sale{
+.sale{
     position: relative;
 }
-.sneakers-group__item_sale::after{
+.sale::after{
     content: "";
     background-image: url('../img/sale-tag.svg');
     background-repeat: no-repeat;
@@ -307,12 +301,13 @@ body{
     margin-left: 10px;
     font-size: 16px;
     line-height: 20px;
+
 }
 
 .sneakers-group__item-label-favorite{
     position: absolute;
-        bottom: 7px;
-        right: 25px;
+    bottom: 7px;
+    right: 25px;
 }
 
 
@@ -321,7 +316,7 @@ body{
     width: 18px;
     height: 32px;
 }
-
+  
 .sneaker-group__item-favorite::before, .sneaker-group__item-favorite::after {
     content: "";
     position: absolute;
@@ -331,14 +326,14 @@ body{
     border-radius: 50px 50px 0 0;
     background: #fff;
 }
-
+  
 .sneaker-group__item-favorite::before {
     left: 18px;
     transform: rotate(-45deg);
     transform-origin: 0 100%;
 }
-
-.sneaker-group__item-favorite::after {
+  
+  .sneaker-group__item-favorite::after {
     left: 0;
     transform: rotate(45deg);
     transform-origin: 100% 100%;
@@ -370,9 +365,7 @@ body{
 }
 
 
-
 .footer{
-    /* height: 365px; */
     background: #323030;
 }
 .footer__inner{
@@ -409,7 +402,7 @@ body{
 }
 .footer__menu-list{
     list-style: none;
-    margin-top: 20px;
+    margin-top: 20px; 
 }
 .footer__menu-item{
     margin-top: 5px;
@@ -420,6 +413,13 @@ body{
     line-height: 20px;
     color: #929090;
 }
+
+
+
+
+
+/* ----------- Detail Sneaker ----------- */
+
 
 
 .overview__inner{
@@ -438,24 +438,43 @@ body{
     color: #000;
     text-decoration: none;
 }
-
-
 .sneaker-cart__inner{
     margin-top: 50px;
     display: flex;
+    justify-content: space-between;
 }
 .sneaker-cart__img{
-    width: 700px;
-    margin-right: 100px;
+    position: relative;
+    flex: 0 0 60%;
+    width: 100%;
+    height: 400px;
+}
+.sneaker-cart__img-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .sneaker-cart__content{
-    width: 100%;
+    flex: 0 0 35%;
+    /* margin-left: 50px; */
 }
+
+.detail.sneakers-group__item-label-favorite{
+    position: absolute;
+    top: 0;
+    right: 25px;
+}
+.detail.sneaker-group__item-favorite::before, .detail.sneaker-group__item-favorite::after{
+    background: #323030;
+}
+
+
 .sneaker-cart__content-title{
     font-size: 28px;
     line-height: 34px;
 }
 .sneaker-cart__content-list{
+    position: relative;
     margin-top: 25px;
     list-style: none;
 }
@@ -483,8 +502,8 @@ body{
 }
 .sneaker-cart__size-num{
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     font-size: 18px;
     line-height: 22px;
     border: 2px solid #323030;
@@ -507,30 +526,52 @@ body{
     color: #fff;
     background: #323030;
 }
+
+
 .sneaker-cart__size-form-label{
     margin-top: 4px;
     margin-left: 2px;
     margin-right: 2px;
 }
 
-.sneaker-cart__content-price{
+.sneaker-cart__price{
+    display: block;
     margin-top: 10px;
     font-size: 26px;
     line-height: 32px;
-    text-align: right;
+}
+.sneaker-cart__content-price{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.sneaker-cart__content-price_sale .sneaker-cart__price{
+    text-decoration: line-through;
+    font-size: 20px;
+    line-height: 24px;
+}
+.sneaker-cart__content-price_sale .sneakers-group__discount-price{
+    color: #ff0000;
+    margin-left: 10px;
+    font-size: 26px;
+    line-height: 32px;
+
 }
 .sneaker-cart__content-btn{
     margin-top: 10px;
-    width: 305px;
+    width: 100%;
     height: 50px;
     background: #FFFFFF;
     border: 2px solid #323030;
     border-radius: 3px;
     font-size: 20px;
     line-height: 24px;
-    font-family: Montserrat;
     outline: 0;
     transition: .2s;
+    font-family: Montserrat;
+    font-weight: 700;
 }
 .sneaker-cart__content-btn:hover{
     background: #323030;
@@ -565,8 +606,6 @@ body{
 .sneaker-cart__table-col{
     width: 25%;
 }
-
-
 
 .message__inner{
     margin-top: 15px;

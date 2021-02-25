@@ -10,6 +10,9 @@
     }
 }
 @media(max-width:940px){
+    body{
+        padding-top: 50px;
+    }
     body.lock{
         overflow: hidden;
     }
@@ -105,7 +108,7 @@
         margin-top: 80px;
     }
     .sneakers-group__inner{
-        margin-top: 20px;
+        margin-top: 50px;
     }
 }
 @media(max-width:925px){
@@ -126,10 +129,70 @@
         top: 0;
     }
 }
+@media(max-width:800px){
+    .sneaker-cart__inner{
+        flex-direction: column;
+    }
+    .sneaker-cart__content{
+        margin-top: 20px;
+    }
+    .sneaker-cart__content-price{
+        text-align: left;
+    }
+    .sneaker-cart__content-form-btn{
+        display: block;
+    }
+}
 
 @media(max-width:620px){
     .snekaer-group__col{
         flex: 0 0 100%;
+    }
+    .sneakers-group__title{
+        font-size: 24px;
+        line-height: 29px;
+    }
+    .overview__page-link{
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .overview__page + .overview__page{
+        margin-left: 5px;
+    }
+}
+@media(max-width:500px){
+    .overview__page-link{
+        font-size: 10px;
+        line-height: 12px;
+    }
+    .sneaker-cart__table-info{
+        font-size: 14px;
+        line-height: 17px;
+    }
+    .sneakers-group__title{
+        font-size: 20px;
+        line-height: 24px;
+    }
+}
+@media(max-width:430px){
+    .overview__inner{
+        margin-top: 12px;
+    }
+    .overview__page-link{
+        font-size: 7px;
+        line-height: 9px;
+    }
+    .sneaker-cart__table-info{
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .sneaker-cart__content-title{
+        font-size: 22px;
+        line-height: 27px;
+    }
+    .sneaker-cart__inner{
+        margin-top: 20px;
     }
 }
 @media(max-width:350px){
