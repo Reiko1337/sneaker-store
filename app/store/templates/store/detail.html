@@ -5,7 +5,6 @@
 {% block title %}Sneaker Store{% endblock %}
 
 {% block content %}
-
 <section class="overview">
     <div class="container">
         <div class="overview__inner">
@@ -60,8 +59,8 @@
                         <div class="sneaker-cart__size-items">
                             {% for size in sizes %}
                             <label class="sneaker-cart__size-form-label" id="sneaker-cart__form-label">
-                                <input class="sneaker-cart__size-form-checkbox" type="checkbox" name="{{ size.size.normalize }}"
-                                    value="{{ size.size.normalize }}">
+                                <input class="sneaker-cart__size-form-checkbox" type="checkbox" name="{{ size.size }}"
+                                    value="{{ size.size }}">
                                 <span class="sneaker-cart__size-num">{{ size.size.normalize }}</span>
                             </label>
                             {% endfor %}

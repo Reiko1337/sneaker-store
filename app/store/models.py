@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.db.models import Sum
 from django.core.exceptions import ValidationError
 
@@ -55,7 +55,11 @@ class Sneaker(Sale):
     def save(self, *args, **kwargs):
         if self.sale:
             self.discount_price = self.price - (self.price / 100 * self.discount)
-        return super().save(*args, *kwargs)
+
+        sneaker_in_cart = self.sneakerincart_set.first()
+        if sneaker_in_cart is not None:
+            sneaker_in_cart.save()
+        return super().save(*args, **kwargs)
 
 
 class Brand(models.Model):
@@ -98,10 +102,21 @@ class Size(models.Model):
     def __str__(self):
         return '{0} | {1}'.format(self.sneaker.name, self.size)
 
+    def save(self, *args, **kwargs):
+        sneaker_in_cart = self.sneakerincart_set.first()
+        if sneaker_in_cart is not None:
+            if self.quantity == 0:
+                sneaker_in_cart.delete()
+            else:
+                if sneaker_in_cart.quantity > self.quantity:
+                    sneaker_in_cart.quantity = self.quantity
+                    sneaker_in_cart.save()
+        super().save(*args, **kwargs)
+
 
 class SneakerInCart(models.Model):
     sneaker = models.ForeignKey(Sneaker, verbose_name='Кроссовки', on_delete=models.PROTECT)
-    size = models.ForeignKey(Size, verbose_name='Размер', on_delete=models.SET_NULL, null=True)
+    size = models.ForeignKey(Size, verbose_name='Размер', on_delete=models.PROTECT)
     cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
     final_price = models.DecimalField(verbose_name='Общая цена', max_digits=9, decimal_places=2, default=0,
@@ -113,7 +128,11 @@ class SneakerInCart(models.Model):
         ordering = ['-id']
 
     def save(self, *args, **kwargs):
-        self.final_price = self.quantity * self.sneaker.price
+        if self.sneaker.sale:
+            price = self.sneaker.discount_price
+        else:
+            price = self.sneaker.price
+        self.final_price = self.quantity * price
         return super().save(*args, **kwargs)
 
     def clean(self):
@@ -141,6 +160,7 @@ class Cart(models.Model):
         return self.customer.username
 
 
+@receiver(post_delete, sender=SneakerInCart)
 @receiver(post_save, sender=SneakerInCart)
 def recalculation_total_price(instance, **kwargs):
     cart = instance.cart
@@ -156,7 +176,7 @@ def recalculation_total_price(instance, **kwargs):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.CASCADE)
-    favorites_sneakers = models.ManyToManyField(Sneaker, verbose_name='Избранные кроссоки', null=True, blank=True)
+    favorites_sneakers = models.ManyToManyField(Sneaker, verbose_name='Избранные кроссоки', blank=True)
 
     class Meta:
         verbose_name = 'Профиль'

@@ -41,7 +41,7 @@
                             <a class="menu__list-link" href="#">Избранное</a>
                         </li>
                         <li class="menu__list-item">
-                            <a class="menu__list-link menu__list-link-cart" href="#">Корзина</a>
+                            <a class="menu__list-link menu__list-link-cart popup-link" href="#cart-popup">Корзина</a>
                         </li>
                         <li class="menu__list-item">
                             <a class="menu__list-link" href="#">Поиск</a>
@@ -139,6 +139,70 @@
         </div>
         </div>
     </footer>
+
+
+    <div id="cart-popup" class="popup">
+        <div class="popup__body">
+            <div class="popup__content">
+                <div class="popup__top">
+                    <a href="#" class="popup__close close-popup">></a>
+                    <div class="popup__title">Корзина ({{ cart.get_total_sneaker }})</div>
+                </div>
+                <div class="popup__bottom">
+                    <div class="cart">
+                        {% for item in cart %}
+                        <div class="cart__item">
+                            <div class="cart__item-inner">
+                                <div class="cart__image">
+                                    <img class="cart__img" src="{{ item.sneaker.image.url }}" alt="{{ item.sneaker.name }}">
+                                </div>
+                                <ul class="cart__content">
+                                    <li class="cart__sneaker-title">{{ item.sneaker.name }}</li>
+                                    <li class="cart__price {% if item.sneaker.sale %} cart__price-inner-sale {% endif %}">
+                                        <span class="cart__price">{{ item.final_price }} BYN</span>
+                                        {% if item.sneaker.sale %}<span class="cart__discount">{{ item.discount_price }} BYN</span>{% endif %}
+                                    </li>
+                                    <li class="cart__size">- Размер: {{ item.size }}</li>
+                                    <li class="cart__qty">- {{ item.quantity }} шт.</li>
+                                </ul>
+                            </div>
+                            <div class="cart__item-del">
+                                <a href="{% url 'store:delete_sneaker_from_cart' item.sneaker.pk item.size %}" class="cart__btn-del">X</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="cart__final-cost">
+                            <div class="cart__preliminary-cost">
+                                <div class="cart__final-price-title">
+                                    Предварительная стоимость:
+                                </div>
+                                <div class="cart__final-price">
+                                    {{ cart.get_final_price }} BYN
+                                </div>
+                            </div>
+                            <div class="cart__total">
+
+                                <div class="cart__final-price-title">
+                                    Итого:
+                                </div>
+                                <div class="cart__final-price">
+                                    {{ cart.get_final_price }} BYN
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart__btns">
+                            <a class="cart__btn" href="#">Открыть корзину</a>
+                            <a class="cart__btn cart__btn-dark" href="#">Оформить заказ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{%  static 'store/js/popup.js' %}"></script>
     <script src="{%  static 'store/js/slider.js' %}"></script>
     <script src="{%  static 'store/js/ajax.js' %}"></script>
     <script src="{%  static 'store/js/scripts.js' %}"></script>

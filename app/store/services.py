@@ -1,13 +1,19 @@
 from django.shortcuts import get_object_or_404
-from .models import Sneaker, SneakerInCart
+from .models import Sneaker, Cart
 from django.contrib import messages
 import ast
-from .session import Session
+from .session import Session, CartSession
+from .services_auth_user import CartUser
 
 
 def get_sneaker_by_slug(slug: str) -> object:
     """Крососки по URL"""
     return get_object_or_404(Sneaker, slug=slug)
+
+
+def get_sneaker_by_id(id: int) -> object:
+    """Крососки по ID"""
+    return get_object_or_404(Sneaker, pk=id)
 
 
 def get_sneaker() -> list:
@@ -65,10 +71,29 @@ def get_favorites_sneakers(request: object) -> list:
         return session.get_favorites_sneakers()
 
 
-def add_to_cart(request, sizes_stock: list, sneaker: object, cart: object):
-    form_sizes = set(request.POST.values())
-    size = set(map(lambda size: str(size.size.normalize()), sizes_stock))
+def edit_favorites_sneakers(request: object, sneaker: str) -> bool:
+    """Редактировать список избранных кроссовок"""
+    sneaker = get_sneaker_by_slug(sneaker)
+    favorite = request.GET.get('favorite')
+    session = Session(request)
+    if favorite is not None:
+        if favorite == 'true':
+            request.user.profile.favorites_sneakers.add(
+                sneaker) if request.user.is_authenticated else session.add_to_favorites(sneaker)
+        elif favorite == 'false':
+            request.user.profile.favorites_sneakers.remove(
+                sneaker) if request.user.is_authenticated else session.remove_from_favorites(sneaker)
+        return True
+    else:
+        return False
 
+
+def add_to_cart(request: object, sneaker: str):
+    sneaker = get_sneaker_by_slug(sneaker)
+    sizes_stock = get_size_sneaker(sneaker)
+    form_sizes = set(map(lambda x: x.replace(',', '.'), request.POST.values()))
+
+    size = set(map(lambda x: str(x.size), sizes_stock))
     sizes = form_sizes & size
     if not sizes:
         return messages.info(request, f'Вы не выбрали размер Кроссовок {sneaker.name}')
@@ -76,29 +101,19 @@ def add_to_cart(request, sizes_stock: list, sneaker: object, cart: object):
     for size in sizes:
         size_num = sizes_stock.filter(size=size).first()
         if size_num:
-            sneaker_in_cart, create = SneakerInCart.objects.get_or_create(cart=cart, sneaker=sneaker, size=size_num)
-            if not create:
-                if sneaker_in_cart.quantity < size_num.quantity:
-                    sneaker_in_cart.quantity += 1
-                    sneaker_in_cart.save()
-                else:
-                    messages.error(request,
-                                   'Кроссовок {0} | Размер ({1}) больше нет в наличии'.format(sneaker.name, size))
-                    continue
-            messages.success(request, 'Кроссовки {0} | Размер ({1}) добавлены в корзину'.format(sneaker.name, size))
+            if request.user.is_authenticated:
+                cart_user = CartUser(request)
+                cart_user.add_to_cart(sneaker, size_num)
+            else:
+                cart = CartSession(request)
+                cart.add_to_cart(sneaker, size_num)
 
 
-def edit_favorites_sneakers(request, sneaker):
-    """Редактировать список избранных кроссовок"""
-    sneaker = get_sneaker_by_slug(sneaker)
-    favorite = request.GET.get('favorite')
-    session = Session(request)
-    if favorite is not None:
-        if favorite == 'true':
-            request.user.profile.favorites_sneakers.add(sneaker) if request.user.is_authenticated else session.add_to_favorites(sneaker)
-        elif favorite == 'false':
-            request.user.profile.favorites_sneakers.remove(sneaker) if request.user.is_authenticated else session.remove_from_favorites(sneaker)
-        return True
+def delete_sneaker_from_cart(request, sneaker, size):
+    if request.user.is_authenticated:
+        pass
+        cart_user = CartUser(request)
+        cart_user.remove(sneaker, size)
     else:
-        return False
-
+        cart = CartSession(request)
+        cart.remove(sneaker, size)

@@ -3,9 +3,8 @@ from django.http import JsonResponse
 from django.views.generic import ListView, DetailView, View
 from .models import Sneaker, Size, SneakerInCart
 from .services import get_sneaker_by_slug, get_size_sneaker, add_to_cart, get_sneaker_new, get_sneaker_sale, \
-    add_sneaker_view_in_cookie, get_sneakers_view_from_cookie, edit_favorites_sneakers, get_favorites_sneakers
-from .mixins import CartMixin, SessionMixin
-from django.contrib import messages
+    add_sneaker_view_in_cookie, get_sneakers_view_from_cookie, edit_favorites_sneakers, get_favorites_sneakers, \
+    delete_sneaker_from_cart
 
 
 class Index(ListView):
@@ -22,7 +21,6 @@ class Index(ListView):
         context['sneakers_sale'] = get_sneaker_sale()
         context['sneakers_view'] = get_sneakers_view_from_cookie(self.request)
         context['favorites'] = get_favorites_sneakers(self.request)
-
         return context
 
 
@@ -47,21 +45,26 @@ class DetailSneaker(DetailView):
         return context
 
 
-class AddToCart(CartMixin, View):
-    """Добавление а корзину"""
+class AddToCart(View):
+    """Добавление в корзину"""
 
     def post(self, request, sneaker):
-        sneaker = get_sneaker_by_slug(sneaker)
-        sizes = get_size_sneaker(sneaker)
-        add_to_cart(request, sizes, sneaker, self.cart)
-        return redirect('store:detail', brand=sneaker.brand.name, sneaker=sneaker.slug)
+        add_to_cart(request, sneaker)
+        return redirect('store:detail', brand=get_sneaker_by_slug(sneaker).brand.name, sneaker=sneaker)
 
 
-class EditFavorites(SessionMixin, View):
-    """Редоктирование список избранных кроссовок"""
+class DeleteCart(View):
+    def get(self, request, sneaker_id, size):
+        delete_sneaker_from_cart(request, sneaker_id, size)
+        return redirect('store:index')
+
+
+class EditFavorites(View):
+    """Редактирование список избранных кроссовок"""
+
     def get(self, request, sneaker):
         if request.is_ajax():
-            status = edit_favorites_sneakers(request,  sneaker)
+            status = edit_favorites_sneakers(request, sneaker)
             if status:
                 return JsonResponse({'success': True}, status=200)
             else:

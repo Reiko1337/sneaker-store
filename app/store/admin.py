@@ -121,7 +121,7 @@ class CartAdmin(admin.ModelAdmin):
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
-    filter_horizontal = ('favorites_sneakers', )
+    filter_horizontal = ('favorites_sneakers',)
 
 
 admin.site.site_title = 'Магазин Кроссовк'
