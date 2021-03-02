@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from .models import Sneaker, Cart
 from django.contrib import messages
 import ast
-from .session import Session, CartSession
+from .session import CartSession, FavoriteSession
 from .services_auth_user import CartUser
 
 
@@ -67,7 +67,7 @@ def get_favorites_sneakers(request: object) -> list:
     if request.user.is_authenticated:
         return request.user.profile.favorites_sneakers.all
     else:
-        session = Session(request)
+        session = FavoriteSession(request)
         return session.get_favorites_sneakers()
 
 
@@ -75,7 +75,7 @@ def edit_favorites_sneakers(request: object, sneaker: str) -> bool:
     """Редактировать список избранных кроссовок"""
     sneaker = get_sneaker_by_slug(sneaker)
     favorite = request.GET.get('favorite')
-    session = Session(request)
+    session = FavoriteSession(request)
     if favorite is not None:
         if favorite == 'true':
             request.user.profile.favorites_sneakers.add(
@@ -89,6 +89,7 @@ def edit_favorites_sneakers(request: object, sneaker: str) -> bool:
 
 
 def add_to_cart(request: object, sneaker: str):
+    """Добавить в корзину"""
     sneaker = get_sneaker_by_slug(sneaker)
     sizes_stock = get_size_sneaker(sneaker)
     form_sizes = set(map(lambda x: x.replace(',', '.'), request.POST.values()))
@@ -113,7 +114,7 @@ def delete_sneaker_from_cart(request, sneaker, size):
     if request.user.is_authenticated:
         pass
         cart_user = CartUser(request)
-        cart_user.remove(sneaker, size)
+        cart_user.delete_sneaker_from_cart(sneaker, size)
     else:
         cart = CartSession(request)
-        cart.remove(sneaker, size)
+        cart.delete_sneaker_from_cart(sneaker, size)

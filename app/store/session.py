@@ -5,9 +5,19 @@ from django.contrib import messages
 
 
 class Session:
+    """Сессия"""
     def __init__(self, request):
         self.request = request
         self.session = request.session
+
+    def save(self):
+        self.session.modified = True
+
+
+class FavoriteSession(Session):
+    """Избранные кроссоки анонимного пользователя"""
+    def __init__(self, request):
+        super().__init__(request)
         if not self.session.get('favorites'):
             self.session['favorites'] = []
 
@@ -25,11 +35,9 @@ class Session:
     def get_favorites_sneakers(self):
         return list(map(lambda x: get_object_or_404(Sneaker, slug=x), self.session['favorites']))
 
-    def save(self):
-        self.session.modified = True
-
 
 class CartSession(Session):
+    """Корзина анонимного пользователя"""
     def __init__(self, request):
         super().__init__(request)
 
@@ -38,6 +46,7 @@ class CartSession(Session):
         self.cart = self.session['cart']
 
     def add_to_cart(self, sneaker, size, quantity=1):
+        """Добавить в корзину"""
         sneaker_id = str(sneaker.pk)
         size_num = str(size.size).rstrip('0').rstrip('.') if '.' in str(size.size) else str(size.size)
         if not self.session['cart'].get(sneaker_id):
@@ -72,12 +81,13 @@ class CartSession(Session):
                 cart[sneaker_id][size]['final_price'] = str(sneaker.price * quantity)
                 cart[sneaker_id][size]['sneaker'] = sneaker
 
-        for items in cart.values():
+        for items in reversed(cart.values()):
             for size, item in items.items():
                 item['size'] = size
                 yield item
 
     def get_final_price(self):
+        """Итоговая цена"""
         final_price = 0
         for sneaker_id in self.cart:
             sneaker = get_object_or_404(Sneaker, pk=sneaker_id)
@@ -91,24 +101,33 @@ class CartSession(Session):
         return final_price
 
     def get_total_sneaker(self):
+        """Количество кроссовок"""
+        self.validation_quantity()
         return sum(item['quantity'] for items in self.cart.values() for item in items.values())
 
     def validation_quantity(self):
-        cart = self.cart.copy()
+        """Проверка количества кроссовок"""
+        cart = copy.deepcopy(self.cart)
         for sneaker_id in cart:
             sneaker = get_object_or_404(Sneaker, pk=sneaker_id)
             for size in cart[sneaker_id]:
                 size_sneaker = sneaker.size_set.filter(size=size).first()
                 quantity = size_sneaker.quantity
                 if quantity == 0:
-                    self.remove(sneaker_id, size)
+                    self.delete_sneaker_from_cart(sneaker_id, size)
                 else:
                     if self.cart[sneaker_id][size]['quantity'] > size_sneaker.quantity:
                         self.cart[sneaker_id][size]['quantity'] = size_sneaker.quantity
                         self.save()
 
-    def remove(self, sneaker_id, size):
-        if self.cart.get(str(sneaker_id)):
-            if self.cart[str(sneaker_id)].get(str(size)):
-                del self.cart[str(sneaker_id)][str(size)]
+    def delete_sneaker_from_cart(self, sneaker_id, size):
+        """Удалить кроссовки из корзины"""
+        sneaker_id = str(sneaker_id)
+        size = str(size)
+        if self.cart.get(sneaker_id):
+            if self.cart[sneaker_id].get(size):
+                del self.cart[sneaker_id][size]
                 self.save()
+                messages.success(self.request, 'Кроссовки удалены из корзины')
+                return
+        messages.error(self.request, 'Ошибка удаления')

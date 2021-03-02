@@ -41,7 +41,7 @@
                             <a class="menu__list-link" href="#">Избранное</a>
                         </li>
                         <li class="menu__list-item">
-                            <a class="menu__list-link menu__list-link-cart popup-link" href="#cart-popup">Корзина</a>
+                            <a class="menu__list-link menu__list-link-cart popup-link" href="#cart-popup">Корзина (<span class="menu__list-link-cart-total">{{ cart.get_total_sneaker }}</span>)</a>
                         </li>
                         <li class="menu__list-item">
                             <a class="menu__list-link" href="#">Поиск</a>
@@ -146,8 +146,9 @@
             <div class="popup__content">
                 <div class="popup__top">
                     <a href="#" class="popup__close close-popup">></a>
-                    <div class="popup__title">Корзина ({{ cart.get_total_sneaker }})</div>
+                    <div class="popup__title">Корзина ({% if cart.get_total_sneaker != 0 %}{{ cart.get_total_sneaker }}{% else %}Пусто{% endif %})</div>
                 </div>
+                {% if cart.get_total_sneaker != 0 %}
                 <div class="popup__bottom">
                     <div class="cart">
                         {% for item in cart %}
@@ -197,6 +198,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -53,7 +53,8 @@ class AddToCart(View):
         return redirect('store:detail', brand=get_sneaker_by_slug(sneaker).brand.name, sneaker=sneaker)
 
 
-class DeleteCart(View):
+class DeleteSneakerCart(View):
+    """Удаление кроссовок из корзины"""
     def get(self, request, sneaker_id, size):
         delete_sneaker_from_cart(request, sneaker_id, size)
         return redirect('store:index')

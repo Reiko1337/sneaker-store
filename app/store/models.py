@@ -8,6 +8,7 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 
 
+
 class Sale(models.Model):
     """Скидка"""
     sale = models.BooleanField(verbose_name='Скидка', default=False)
